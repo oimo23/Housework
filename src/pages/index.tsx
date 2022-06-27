@@ -1,4 +1,3 @@
-import { Button } from '@mui/material'
 import axios, { AxiosResponse } from 'axios'
 import type { NextPage } from 'next'
 import Head from 'next/head'
