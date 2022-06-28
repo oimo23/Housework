@@ -90,8 +90,7 @@ const Home: NextPage = () => {
     ;(async function () {
       try {
         const response: AxiosResponse<any> = await axios.get(
-          `https://script.google.com/macros/s/AKfycbzHlX1OUKnGlVjrKgaFHPQgxRZFTU5IQRhVX-UGgRvplS8FYzeHtVeuZtxPSf8Bp5E/exec`,
-          { crossDomain: true }
+          `https://script.google.com/macros/s/AKfycbzHlX1OUKnGlVjrKgaFHPQgxRZFTU5IQRhVX-UGgRvplS8FYzeHtVeuZtxPSf8Bp5E/exec`
           )
         setYukiData(response.data[0])
         setRinData(response.data[1])
@@ -135,11 +134,13 @@ const Home: NextPage = () => {
 
       <Header />
       <main>
-        <div>
+        <div className="mt-10">
           <h3 className="text-center">朝ごはん</h3>
           <Doughnut data={doughnutData1} options={doughnutOptions}/>
         </div>
-        <Bar data={chartData} />
+        {false &&
+          <Bar data={chartData} />
+        }
       </main>
     </div>
   )
