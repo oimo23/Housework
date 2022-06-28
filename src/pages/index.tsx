@@ -1,4 +1,5 @@
 // import axios, { AxiosResponse } from 'axios'
+
 import axios, { AxiosResponse } from 'axios'
 import {
   ArcElement,
@@ -62,21 +63,21 @@ const chartData = {
 
 const doughnutOptions: any = {
   plugins: {
-    doughnutlabel: {
-      labels: [
-        {
-          text: 'ITEMS',
-          color: '#666666',
-          font: {
-            size: 30,
-          },
-        },
-        {
-          text: 'TEST',
-          color: '#888888',
-        },
-      ],
+    legend: {
+      labels: {
+        color: 'rgb(255, 255, 255)'
+      }
     },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem: any, data: any) {
+          return data.labels[tooltipItem.index]
+            + ": "
+            + data.datasets[0].data[tooltipItem.index]
+            + " 回"; //ここで単位を付けます
+        }
+      }
+    }
   },
 };
 
