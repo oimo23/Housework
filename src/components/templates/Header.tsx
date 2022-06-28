@@ -1,8 +1,8 @@
 const Header: React.FC = () => {
   return (
     <header>
-      <h1>なんかヘッダー</h1>
-      <p>メニュー</p>
+      <h1>家事ウォッチング</h1>
+      <p>家事の実績が見れます</p>
     </header>
   )
 }
