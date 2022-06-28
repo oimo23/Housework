@@ -60,10 +60,7 @@ const chartData = {
   ],
 }
 
-const doughnutOptions = {
-  legend: {
-    display: false,
-  },
+const doughnutOptions: any = {
   plugins: {
     doughnutlabel: {
       labels: [
