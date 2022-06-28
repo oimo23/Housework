@@ -60,6 +60,29 @@ const chartData = {
   ],
 }
 
+const doughnutOptions = {
+  legend: {
+    display: false,
+  },
+  plugins: {
+    doughnutlabel: {
+      labels: [
+        {
+          text: 'ITEMS',
+          color: '#666666',
+          font: {
+            size: 30,
+          },
+        },
+        {
+          text: 'TEST',
+          color: '#888888',
+        },
+      ],
+    },
+  },
+};
+
 const Home: NextPage = () => {
   const [yukiData, setYukiData] = useState<any>()
   const [rinData, setRinData] = useState<any>()
@@ -86,11 +109,11 @@ const Home: NextPage = () => {
     console.info(breakFast) 
   }, [rinData])
 
-  const yukiDataList = yukiData ? yukiData.map((d) => (
-    <li key={d.date}>
-      {d.date}
-    </li>
-  )) : null
+  // const yukiDataList = yukiData ? yukiData.map((d) => (
+  //   <li key={d.date}>
+  //     {d.date}
+  //   </li>
+  // )) : null
 
   const doughnutData1 = {
     datasets: [
@@ -116,7 +139,7 @@ const Home: NextPage = () => {
       <main>
         <div>
           <h3 className="text-center">朝ごはん</h3>
-          <Doughnut data={doughnutData1} />
+          <Doughnut data={doughnutData1} options={doughnutOptions}/>
         </div>
         <Bar data={chartData} />
       </main>
