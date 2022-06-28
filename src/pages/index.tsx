@@ -84,7 +84,7 @@ const doughnutOptions: any = {
 const Home: NextPage = () => {
   const [yukiData, setYukiData] = useState<any>()
   const [rinData, setRinData] = useState<any>()
-  const [breakFast, setBreakFast] = useState<any>()
+  const [result, setResult] = useState<any>()
 
   useEffect(() => {
     ;(async function () {
@@ -101,9 +101,8 @@ const Home: NextPage = () => {
   }, [])
 
   useEffect(() => {
-    const {breakFast} = aggrigate(yukiData, rinData)
-    setBreakFast(breakFast)
-    console.info(breakFast) 
+    const {result} = aggrigate(yukiData, rinData)
+    setResult(result)
   }, [rinData])
 
   // const yukiDataList = yukiData ? yukiData.map((d) => (
@@ -112,16 +111,12 @@ const Home: NextPage = () => {
   //   </li>
   // )) : null
 
-  const doughnutData1 = {
-    datasets: [
-      {
-        data: [breakFast?.yuki, breakFast?.rin],
-        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-        borderColor: ['rgb(255, 99, 132)', 'rgb(75, 192, 192)']
-      }
-    ],
-    labels: ['YUKI', 'RIN'],
-  }
+  const breakFastData = doughnutChartDataMaker(result, 'breakFast')
+  const breakFastCleanData = doughnutChartDataMaker(result, 'breakFastClean')
+  const lunchData = doughnutChartDataMaker(result, 'breakFast')
+  const lunchCleanData = doughnutChartDataMaker(result, 'breakFastClean')
+  const dinnerData = doughnutChartDataMaker(result, 'breakFast')
+  const dinnerCleanData = doughnutChartDataMaker(result, 'breakFastClean')
   
 
   return (
@@ -134,9 +129,30 @@ const Home: NextPage = () => {
 
       <Header />
       <main>
+        <div className="text-center">6月</div>
         <div className="mt-10">
           <h3 className="text-center">朝ごはん</h3>
-          <Doughnut data={doughnutData1} options={doughnutOptions}/>
+          <Doughnut data={breakFastData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">朝ごはん片付け</h3>
+          <Doughnut data={breakFastCleanData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">昼ごはん</h3>
+          <Doughnut data={lunchData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">昼ごはん片付け</h3>
+          <Doughnut data={lunchCleanData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">夜ごはん</h3>
+          <Doughnut data={dinnerData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">夜ごはん片付け</h3>
+          <Doughnut data={dinnerCleanData} options={doughnutOptions}/>
         </div>
         {false &&
           <Bar data={chartData} />
@@ -147,36 +163,77 @@ const Home: NextPage = () => {
 }
 
 const aggrigate = (yukiData: any, rinData: any) => {
-  const breakFast = {
-    yuki: 0,
-    rin: 0
+  interface houseWorkCount {
+    [key: string]: number
   }
 
-  if (!yukiData) return {breakFast}
+  interface houseWorkMember {
+    [key: string]: houseWorkCount
+  }
 
-  console.info(yukiData)
-  console.info(rinData)
+  const result: houseWorkMember = {
+    yuki: {
+      breakFast: 0,
+      breakFastClean: 0,
+      lunch: 0,
+      lunchClean: 0,
+      dinner: 0,
+      dinnerClean: 0,
+    },
+    rin: {
+      breakFast: 0,
+      breakFastClean: 0,
+      lunch: 0,
+      lunchClean: 0,
+      dinner: 0,
+      dinnerClean: 0,
+    }
+  }
+
+  const houseworkNames = [
+    'breakFast',
+    'breakFastClean',
+    'lunch',
+    'lunchClean',
+    'dinner',
+    'dinnerClean',
+  ]
+
+  if (!yukiData) return {result}
+
 
   for(const dailyData of yukiData) {
-    if (dailyData.breakFast === '○') {
-      breakFast.yuki++
+    for(const houseworkName of houseworkNames) {
+      if (dailyData[houseworkName] === '○') {
+        result.yuki[houseworkName]++
+      }
     }
   }
 
   for(const dailyData of rinData) {
-    if (dailyData.breakFast === '○') {
-      breakFast.rin++
+    for(const houseworkName of houseworkNames) {
+      if (dailyData[houseworkName] === '○') {
+        result.rin[houseworkName]++
+      }
     }
   }
 
-  console.info(breakFast)
+  return {result}
+}
 
-  // 朝ごはんの100分率
-  // const breakFastTotal = breakFast.yuki + breakFast.rin
-  // breakFast.yuki = Math.floor(breakFast.yuki / breakFastTotal) * 100
-  // breakFast.rin  = 100 - breakFast.yuki
+const doughnutChartDataMaker = (result: any, houseworkName: string) => {
+  const data = {
+    datasets: [
+      {
+        data: [result?.yuki[houseworkName], result?.rin[houseworkName]],
+        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+        borderColor: ['rgb(255, 99, 132)', 'rgb(75, 192, 192)']
+      }
+    ],
+    labels: ['YUKI', 'RIN'],
+  }
 
-  return {breakFast}
+  return data
 }
 
 export default Home
