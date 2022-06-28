@@ -117,14 +117,17 @@ const Home: NextPage = () => {
   const lunchCleanData = doughnutChartDataMaker(result, 'breakFastClean')
   const dinnerData = doughnutChartDataMaker(result, 'breakFast')
   const dinnerCleanData = doughnutChartDataMaker(result, 'breakFastClean')
+  const roomCleanData = doughnutChartDataMaker(result, 'roomClean')
+  const laundryStartData = doughnutChartDataMaker(result, 'laundryStart')
+  const laundryDryingData = doughnutChartDataMaker(result, 'laundryDrying')
   
 
   return (
     <div className={styles.container}>
       {/* こんな感じでページごとのtitleなど設定できる */}
       <Head>
-        <title>ユーザー一覧</title>
-        <meta name="description" content="ユーザー一覧ページ。" />
+        <title>家事ウォッチング</title>
+        <meta name="description" content="家事の実績を可視化出来ます。" />
       </Head>
 
       <Header />
@@ -154,6 +157,18 @@ const Home: NextPage = () => {
           <h3 className="text-center">夜ごはん片付け</h3>
           <Doughnut data={dinnerCleanData} options={doughnutOptions}/>
         </div>
+        <div className="mt-10">
+          <h3 className="text-center">部屋掃除</h3>
+          <Doughnut data={roomCleanData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">洗濯物回し</h3>
+          <Doughnut data={laundryStartData} options={doughnutOptions}/>
+        </div>
+        <div className="mt-10">
+          <h3 className="text-center">洗濯物干し</h3>
+          <Doughnut data={laundryDryingData} options={doughnutOptions}/>
+        </div>
         {false &&
           <Bar data={chartData} />
         }
@@ -179,6 +194,9 @@ const aggrigate = (yukiData: any, rinData: any) => {
       lunchClean: 0,
       dinner: 0,
       dinnerClean: 0,
+      roomClean: 0,
+      laundryStart: 0,
+      laundryDrying: 0
     },
     rin: {
       breakFast: 0,
@@ -187,6 +205,9 @@ const aggrigate = (yukiData: any, rinData: any) => {
       lunchClean: 0,
       dinner: 0,
       dinnerClean: 0,
+      roomClean: 0,
+      laundryStart: 0,
+      laundryDrying: 0
     }
   }
 
@@ -197,10 +218,12 @@ const aggrigate = (yukiData: any, rinData: any) => {
     'lunchClean',
     'dinner',
     'dinnerClean',
+    'roomClean',
+    'laundryStart',
+    'laundryDrying'
   ]
 
   if (!yukiData) return {result}
-
 
   for(const dailyData of yukiData) {
     for(const houseworkName of houseworkNames) {
