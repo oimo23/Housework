@@ -113,10 +113,10 @@ const Home: NextPage = () => {
 
   const breakFastData = doughnutChartDataMaker(result, 'breakFast')
   const breakFastCleanData = doughnutChartDataMaker(result, 'breakFastClean')
-  const lunchData = doughnutChartDataMaker(result, 'breakFast')
-  const lunchCleanData = doughnutChartDataMaker(result, 'breakFastClean')
-  const dinnerData = doughnutChartDataMaker(result, 'breakFast')
-  const dinnerCleanData = doughnutChartDataMaker(result, 'breakFastClean')
+  const lunchData = doughnutChartDataMaker(result, 'lunch')
+  const lunchCleanData = doughnutChartDataMaker(result, 'lunchClean')
+  const dinnerData = doughnutChartDataMaker(result, 'dinner')
+  const dinnerCleanData = doughnutChartDataMaker(result, 'dinnerClean')
   const roomCleanData = doughnutChartDataMaker(result, 'roomClean')
   const laundryStartData = doughnutChartDataMaker(result, 'laundryStart')
   const laundryDryingData = doughnutChartDataMaker(result, 'laundryDrying')
@@ -225,6 +225,8 @@ const aggrigate = (yukiData: any, rinData: any) => {
 
   if (!yukiData) return {result}
 
+  console.info(yukiData)
+
   for(const dailyData of yukiData) {
     for(const houseworkName of houseworkNames) {
       if (dailyData[houseworkName] === '○') {
@@ -240,6 +242,8 @@ const aggrigate = (yukiData: any, rinData: any) => {
       }
     }
   }
+
+  console.info(result)
 
   return {result}
 }
