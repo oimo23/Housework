@@ -140,7 +140,7 @@ const Home: NextPage = () => {
 
       <Header />
       <main>
-        <div className="text-center">6月</div>
+        <div className="text-center">{dayjs().format('YYYY年MM')}月</div>
         <div className="mt-10">
           <h3 className="text-center">朝ごはん</h3>
           <Doughnut data={breakFastData} options={doughnutOptions}/>
