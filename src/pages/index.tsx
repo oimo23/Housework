@@ -11,6 +11,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+import dayjs from 'dayjs';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
@@ -89,8 +90,15 @@ const Home: NextPage = () => {
   useEffect(() => {
     ;(async function () {
       try {
+        const now = dayjs()
+        const year = now.format('YYYY')
+        const month = now.format('MM')
+        const params = {
+          yearMonth: year + '/' + Number(month)
+        }
         const response: AxiosResponse<any> = await axios.get(
-          `https://script.google.com/macros/s/AKfycbzHlX1OUKnGlVjrKgaFHPQgxRZFTU5IQRhVX-UGgRvplS8FYzeHtVeuZtxPSf8Bp5E/exec`
+          `https://script.google.com/macros/s/AKfycbxV1fG8Sdt4SEABMV8CndDcYZWHJ8ofkfE-rsLwYn8_8f_wT9Y3_7pJ-4uBCPvmRfIs/exec`,
+          { params }
           )
         setYukiData(response.data[0])
         setRinData(response.data[1])
